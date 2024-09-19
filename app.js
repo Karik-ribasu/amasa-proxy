@@ -1,10 +1,12 @@
 const express = require("express");
+const cors = require("cors")
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(express.json());
+app.use(cors())
 
 async function getSwapData({
   srcToken,
@@ -37,7 +39,6 @@ app.post("/swap-data", async (req, res) => {
   const { srcToken, dstToken, amount, from } = req.body;
   console.log({ srcToken, dstToken, amount, from })
   try {
-    res.set('Access-Control-Allow-Origin', '*')
     const data = await getSwapData({ srcToken, dstToken, amount, from });
     res.json({ data });
   } catch (error) {
