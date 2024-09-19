@@ -37,6 +37,7 @@ app.post("/swap-data", async (req, res) => {
   const { srcToken, dstToken, amount, from } = req.body;
   console.log({ srcToken, dstToken, amount, from })
   try {
+    res.set('Access-Control-Allow-Origin', '*')
     const data = await getSwapData({ srcToken, dstToken, amount, from });
     res.json({ data });
   } catch (error) {
