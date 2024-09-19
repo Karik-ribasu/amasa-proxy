@@ -33,7 +33,7 @@ async function getSwapData({
   }
 }
 
-app.post("/swapData", async (req, res) => {
+app.post("/swap-data", async (req, res) => {
   const { srcToken, dstToken, amount, from } = req.body;
   console.log({ srcToken, dstToken, amount, from })
   try {
