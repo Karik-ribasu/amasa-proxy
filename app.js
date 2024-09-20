@@ -17,8 +17,6 @@ async function getSwapData({
 }) {
   const token = process.env.ONE_INCH_TOKEN;
   const query = `https://api.1inch.dev/swap/v6.0/42161/swap?src=${srcToken}&dst=${dstToken}&amount=${amount.toString()}&from=${from}&slippage=${slippage}&receiver=${from}&disableEstimate=true&compatibility=true`;
-  console.log(query)
-  console.log(token)
   try {
     const response = await fetch(query, {
       method: "GET",
@@ -27,27 +25,29 @@ async function getSwapData({
         accept: "application/json"
       },
     });
-    
-    return response.json();
+    const data = await response.json()
+    console.log(data)
+    return data;
   } catch (error) {
     console.log(error)
     throw error;
   }
 }
 
-app.post("/swap-data", async (req, res) => {
+app.post("/1inch/swap-data", async (req, res) => {
   const { srcToken, dstToken, amount, from } = req.body;
   console.log({ srcToken, dstToken, amount, from })
   try {
     const data = await getSwapData({ srcToken, dstToken, amount, from });
     res.json({ data });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.log(error)
+    res.status(500).json({ error: error });
   }
 });
 
 const server = app.listen(port, () =>
-  console.log(`Example app listening on port ${port}!`)
+  console.log(`listening on port ${port}!`)
 );
 
 server.keepAliveTimeout = 120 * 1000;
